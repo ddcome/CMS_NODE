@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>内容列表</title>
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+    <!-- bootstrap framework -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <!-- icon sets -->
+    <!-- elegant icons -->
+    <link href="assets/icons/elegant/style.css" rel="stylesheet" media="screen">
+    <!-- elusive icons -->
+    <link href="assets/icons/elusive/css/elusive-webfont.css" rel="stylesheet" media="screen">
+    <!-- flags -->
+    <link rel="stylesheet" href="assets/icons/flags/flags.css">
+    <!-- scrollbar -->
+    <link rel="stylesheet" href="assets/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+
+    <!-- page specific stylesheets -->
+
+    <!-- footable -->
+    <link href="assets/lib/footable/css/footable.core.min.css" rel="stylesheet" media="screen">
+
+    <!-- google webfonts -->
+    <link href='assets/css/fonts.googleapis.css' rel='stylesheet' type='text/css'>
+
+    <!-- main stylesheet -->
+    <link href="assets/css/main.min.css" rel="stylesheet" media="screen" id="mainCss">
+
+    <!-- moment.js (date library) -->
+    <script src="assets/js/moment-with-langs.min.js"></script>
+
+</head>
+<body class="side_menu_active side_menu_expanded">
+<div id="page_wrapper">
+
+    <!-- header -->
+    <header id="main_header"></header>
+
+    <!-- breadcrumbs -->
+    <nav id="breadcrumbs">
+        <ul>
+            <li><a href="dashboard.html">首页</a></li>
+            <li><span>内容管理</span></li>
+            <li><span>内容列表</span></li>
+        </ul>
+    </nav>
+
+    <!-- main content -->
+    <div id="main_wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="list-group">
+                        <a href="javascript:void(0)" class="active list-group-item">所有内容</a>
+                        <a href="#" class="list-group-item">已删除</a>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input id="textFilter" type="text" class="form-control input-sm">
+                            <span class="help-block">过滤</span>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control input-sm" id="userStatus">
+                                <option></option>
+                                <option value="active">Active</option>
+                                <option value="disabled">Disabled</option>
+                                <option value="suspended">Suspended</option>
+                            </select> <span class="help-block">状态</span>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="btn btn-default btn-sm" id="clearFilters">清除</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-yuk2 toggle-arrow-tiny"
+                                   id="footable_demo" data-filter="#textFilter" data-page-size="5">
+                                <thead>
+                                <tr>
+                                    <th data-toggle="true">标题</th>
+                                    <th>作者</th>
+                                    <th data-hide="phone,tablet">发布时间</th>
+                                    <th>浏览次数</th>
+                                    <th>分享次数</th>
+                                    <th>被赞次数</th>
+                                    <th>发布时间</th>
+                                    <th data-hide="phone">状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="art_cont"></tbody>
+                            </table>
+                            <ul id="my-page" class="pagination pagination-sm">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- main menu -->
+    <nav id="main_menu"></nav>
+
+</div>
+
+<!-- jQuery -->
+<script src="assets/js/jquery.min.js"></script>
+<!-- jQuery Cookie -->
+<script src="assets/js/jqueryCookie.min.js"></script>
+<!-- Bootstrap Framework -->
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<!-- retina images -->
+<!--<script src="assets/js/retina.min.js"></script>-->
+<!-- switchery -->
+<script src="assets/lib/switchery/dist/switchery.min.js"></script>
+<!-- typeahead -->
+<script src="assets/lib/typeahead/typeahead.bundle.min.js"></script>
+<!-- fastclick -->
+<script src="assets/js/fastclick.min.js"></script>
+<!-- match height -->
+<script src="assets/lib/jquery-match-height/jquery.matchHeight-min.js"></script>
+<!-- scrollbar -->
+<script src="assets/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<!--加载页头-->
+<script src="assets/js/main_header.js"></script>
+<!--加载菜单-->
+<script src="assets/js/main_menu.js"></script>
+
+<!-- Yukon Admin functions -->
+<script src="assets/js/yukon_all.js"></script>
+
+<!-- page specific plugins -->
+
+<!-- footable -->
+<script src="assets/lib/footable/footable.min.js"></script>
+<script src="assets/lib/footable/footable.paginate.min.js"></script>
+<script src="assets/lib/footable/footable.filter.min.js"></script>
+
+<!-- jBox -->
+<script src="assets/lib/jBox-0.3.0/Source/jBox.min.js"></script>
+
+<!-- 新增的JS代码区域 -->
+<script src="assets/js/myPage.own.js"></script>
+
+<script>
+    $(function () {
+        // footable
+        yukon_footable.p_plugins_tables_footable();
+    })
+
+    /*
+    全局变量区域
+    */
+    var _data;
+
+    function paged() {
+        $("#my-page").empty();
+        var cont = '';
+        cont += '<li class="footable-page-arrow"><a href="javascript:getPage(' + minPageNum + ');">F</a></li>';
+        for (var i = currentMinNum; i <= currentMaxNum; i++) {
+            cont += '<li class="footable-page';
+            if (i == currentPageNum) {
+                cont += ' active"><a class="active" href="javascript:getPage(' + i + ');">' + i + '</a></li>';
+            } else {
+                cont += '"><a href="javascript:getPage(' + i + ');">' + i + '</a></li>';
+            }
+        }
+        cont += '<li class="footable-page-arrow"><a href="javascript:getPage(' + maxPageNum + ');">L</a></li>';
+        cont += '<li><a>共' + dataSum + '条</a></li>';
+        $("#my-page").append($(cont));
+    }
+
+    function getPage(currentP) {
+        changePage(currentP);
+        paged();
+        addCont(_data);
+        printPageInfo();
+    }
+
+    function initP(data, num) {
+        initPage(data, num);
+        paged();
+    }
+
+    function showModel(str) {
+        //最后，进行提示信息的展示
+        new jBox('Notice', {
+            attributes: {
+                x: 'right',
+                y: 'bottom'
+            },
+            theme: 'NoticeBorder',
+            color: 'green',
+            audio: 'assets/lib/jBox-0.3.0/Source/audio/bling2',
+            volume: '100',
+            stack: false,
+            autoClose: 3000,
+            animation: {
+                open: 'slide:bottom',
+                close: 'slide:left'
+            },
+            onInit: function () {
+                this.options.title = '反馈';
+                this.options.content = str;
+            }
+        });
+    }
+
+    function selectArti() {
+        var res;
+        var params = {
+            action: 'select-articles-text',
+            data: {}
+        };
+        console.log(JSON.stringify(params));
+        $.ajax({
+            async: false, //禁止异步
+            url: "/DCMServer/goodLuckToDd/back",
+            type: "post",
+            data: {
+                params: JSON.stringify(params)
+            },
+            dataType: "json",
+            success: function (json) {
+                /*
+                $("#message").html(json.message);
+                //成功跳转
+                if(json.status.toString() == '1'){
+                     window.location.href="index.html";
+                }
+                 */
+                console.log("成功 >>> ");
+                console.log(json);
+                showModel("数据加载完成！");
+                res = json;
+            },
+            error: function (json) {
+                /*
+                alert(json.message);
+                $("#message").html(json.message);
+                 */
+                console.log("失败");
+                console.log(json);
+                showModel("数据加载失败！");
+                res = json;
+            }
+        });
+        return res;
+    }
+
+    function addCont(res) {
+        $("#art_cont").empty();
+        var cont = '';
+        var indexMin = (currentPageNum - 1) * everyPageTotal;
+        var indexMax = ((currentPageNum - 1) * everyPageTotal + everyPageTotal) >= dataSum ? dataSum : ((currentPageNum - 1) * everyPageTotal + everyPageTotal);
+
+        for (var i = indexMin; i < indexMax; i++) {
+            cont += '' +
+                '<tr>' +
+                '<td>' + res[i].title + '</td>' +
+                '<td>' + res[i].author + '</td>' +
+                '<td>' + res[i].browse_times + '</td>' +
+                '<td>' + res[i].share_times + '</td>' +
+                '<td>' + res[i].good_idea + '</td>' +
+                '<td data-value="78025368997">' + res[i].publish_time + '</td>' +
+                '<td data-value="1"><span class="label label-success status-active" title="Active">' + (res[i].status == 1 ? '活跃' : '已删除') + '</span></td>' +
+                '<td data-value="2">' +
+                '<a href="javascript:edit(' + res[i].id + ');"><span class="label label-default status-disabled" title="编辑">编辑</span></a>' +
+                '<a href="javascript:remove(' + res[i].id + ');"><span class="label label-default status-disabled" title="删除">删除</span></a>' +
+                '</td>' +
+                '</tr>' +
+                '';
+        }
+
+        $("#art_cont").append($(cont));
+
+    }
+
+    /**
+     *页面加载需要执行的操作
+     */
+    // $(function() {
+    // 	//1.请求文章的数据
+    // 	var res = selectArti();
+    //
+    // 	_data = res;
+    //
+    // 	initP(res,5);
+    //
+    // 	//2.加载数据到页面
+    // 	addCont(res);
+    //
+    // 	paged();
+    // });
+
+    function remove(str) {
+        console.log(str);
+    }
+
+    function edit(str) {
+        console.log(str);
+    }
+</script>
+
+</body>
+</html>

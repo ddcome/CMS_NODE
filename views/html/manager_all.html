@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>所有管理员</title>
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+    <!-- bootstrap framework -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <!-- icon sets -->
+    <!-- elegant icons -->
+    <link href="assets/icons/elegant/style.css" rel="stylesheet" media="screen">
+    <!-- elusive icons -->
+    <link href="assets/icons/elusive/css/elusive-webfont.css" rel="stylesheet" media="screen">
+    <!-- flags -->
+    <link rel="stylesheet" href="assets/icons/flags/flags.css">
+    <!-- scrollbar -->
+    <link rel="stylesheet" href="assets/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+
+    <!-- page specific stylesheets -->
+
+    <!-- footable -->
+    <link href="assets/lib/footable/css/footable.core.min.css" rel="stylesheet" media="screen">
+
+
+    <!-- google webfonts -->
+    <link href='assets/css/fonts.googleapis.css' rel='stylesheet' type='text/css'>
+
+    <!-- main stylesheet -->
+    <link href="assets/css/main.min.css" rel="stylesheet" media="screen" id="mainCss">
+
+    <!-- moment.js (date library) -->
+    <script src="assets/js/moment-with-langs.min.js"></script>
+
+</head>
+<body class="side_menu_active side_menu_expanded">
+<div id="page_wrapper">
+
+    <!-- header -->
+    <header id="main_header"></header>
+
+    <!-- breadcrumbs -->
+    <nav id="breadcrumbs">
+        <ul>
+            <li><a href="dashboard.html">首页</a></li>
+            <li><span>用户管理</span></li>
+            <li><span>系统管理员</span></li>
+        </ul>
+    </nav>
+
+    <!-- main content -->
+    <div id="main_wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="list-group">
+                        <a href="javascript:void(0)" class="active list-group-item">所有管理员</a>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input id="username-m" type="text" class="form-control input-sm">
+                            <span class="help-block">管理员名称</span>
+                        </div>
+                        <div class="col-md-2">
+                            <input id="password-m" type="text" class="form-control input-sm">
+                            <span class="help-block">密码</span>
+                        </div>
+                        <div class="col-md-2">
+                            <input id="email-m" type="text" class="form-control input-sm">
+                            <span class="help-block">EMail</span>
+                        </div>
+                        <div class="col-md-2">
+                            <input id="github-m" type="text" class="form-control input-sm">
+                            <span class="help-block">GitHub</span>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-control input-sm" id="rank-m">
+                                <option value="1">一级管理员</option>
+                                <option value="2">二级管理员</option>
+                                <option value="3">三级管理员</option>
+                            </select> <span class="help-block">管理员级别</span>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-default btn-sm" href="javascript: save();">保存</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-yuk2 toggle-arrow-tiny"
+                                   id="footable_demo" data-filter="#textFilter" data-page-size="5">
+                                <thead>
+                                <tr>
+                                    <th>用户名</th>
+                                    <th>密码</th>
+                                    <th>级别</th>
+                                    <th>生日</th>
+                                    <th>图片URL</th>
+                                    <th>Email</th>
+                                    <th>GitHub</th>
+                                    <th>最近登录IP</th>
+                                    <th>最近登录时间<a href="javascript:sortBycreateTime();"><span
+                                            class="el-icon-resize-vertical bs_ttip"
+                                            style="font-size: 10px;"></span></a></th>
+                                    <th>状态 <a href="javascript:findByStatus();"><span
+                                            class="el-icon-retweet bs_ttip" style="font-size: 15px;"></span></a>
+                                    </th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="manager_cont"></tbody>
+                                <!--
+                                <tfoot class="hide-if-no-paging">
+                                    <tr>
+                                        <td colspan="5">
+                                            <ul class="pagination pagination-sm"></ul>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                                 -->
+                            </table>
+                            <ul id="my-page" class="pagination pagination-sm">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- main menu -->
+    <nav id="main_menu">
+    </nav>
+
+</div>
+
+<!-- jQuery -->
+<script src="assets/js/jquery.min.js"></script>
+<!-- jQuery Cookie -->
+<script src="assets/js/jqueryCookie.min.js"></script>
+<!-- Bootstrap Framework -->
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<!-- retina images -->
+<!--<script src="assets/js/retina.min.js"></script>-->
+<!-- switchery -->
+<script src="assets/lib/switchery/dist/switchery.min.js"></script>
+<!-- typeahead -->
+<script src="assets/lib/typeahead/typeahead.bundle.min.js"></script>
+<!-- fastclick -->
+<script src="assets/js/fastclick.min.js"></script>
+<!-- match height -->
+<script src="assets/lib/jquery-match-height/jquery.matchHeight-min.js"></script>
+<!-- scrollbar -->
+<script src="assets/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<!--加载页头-->
+<script src="assets/js/main_header.js"></script>
+<!--加载菜单-->
+<script src="assets/js/main_menu.js"></script>
+
+<!-- Yukon Admin functions -->
+<script src="assets/js/yukon_all.js"></script>
+
+<!-- jBox -->
+<script src="assets/lib/jBox-0.3.0/Source/jBox.min.js"></script>
+
+<!-- page specific plugins -->
+
+<!-- footable -->
+<script src="assets/lib/footable/footable.min.js"></script>
+<script src="assets/lib/footable/footable.paginate.min.js"></script>
+<script src="assets/lib/footable/footable.filter.min.js"></script>
+<!-- 新增的JS代码区域 -->
+<script src="assets/js/myPage.own.js"></script>
+
+<script>
+    $(function () {
+        // footable
+        yukon_footable.p_plugins_tables_footable();
+    })
+
+    /*
+    全局变量区域
+    */
+    var _data;
+
+    function paged() {
+        $("#my-page").empty();
+        var cont = '';
+        cont += '<li class="footable-page-arrow"><a href="javascript:getPage(' + minPageNum + ');">F</a></li>';
+        for (var i = currentMinNum; i <= currentMaxNum; i++) {
+            cont += '<li class="footable-page';
+            if (i == currentPageNum) {
+                cont += ' active"><a class="active" href="javascript:getPage(' + i + ');">' + i + '</a></li>';
+            } else {
+                cont += '"><a href="javascript:getPage(' + i + ');">' + i + '</a></li>';
+            }
+        }
+        cont += '<li class="footable-page-arrow"><a href="javascript:getPage(' + maxPageNum + ');">L</a></li>';
+        cont += '<li><a>共' + dataSum + '条</a></li>';
+        $("#my-page").append($(cont));
+    }
+
+    function getPage(currentP) {
+        changePage(currentP);
+        paged();
+        addCont(_data);
+        printPageInfo();
+    }
+
+    function initP(data, num) {
+        initPage(data, num);
+        paged();
+    }
+
+    function showModel(str) {
+        //最后，进行提示信息的展示
+        new jBox('Notice', {
+            attributes: {
+                x: 'right',
+                y: 'bottom'
+            },
+            theme: 'NoticeBorder',
+            color: 'green',
+            audio: 'assets/lib/jBox-0.3.0/Source/audio/bling2',
+            volume: '100',
+            stack: false,
+            autoClose: 3000,
+            animation: {
+                open: 'slide:bottom',
+                close: 'slide:left'
+            },
+            onInit: function () {
+                this.options.title = 'Information:';
+                this.options.content = str;
+            }
+        });
+    }
+
+    function selectManagers() {
+        var res;
+        var params = {
+            action: 'select-manager',
+            data: {}
+        };
+        console.log(JSON.stringify(params));
+        $.ajax({
+            async: false, //禁止异步
+            url: "/DCMServer/goodLuckToDd/back",
+            type: "post",
+            data: {
+                params: JSON.stringify(params)
+            },
+            dataType: "json",
+            success: function (json) {
+                /*
+                $("#message").html(json.message);
+                //成功跳转
+                if(json.status.toString() == '1'){
+                     window.location.href="index.html";
+                }
+                 */
+                console.log("成功 >>> ");
+                console.log(json);
+                showModel("数据加载完成！");
+                res = json;
+            },
+            error: function (json) {
+                /*
+                alert(json.message);
+                $("#message").html(json.message);
+                 */
+                console.log("失败");
+                console.log(json);
+                showModel("数据加载失败！");
+                res = json;
+            }
+        });
+        return res;
+    }
+
+    function addCont(res) {
+        $("#manager_cont").empty();
+        var cont = '';
+        var indexMin = (currentPageNum - 1) * everyPageTotal;
+        var indexMax = ((currentPageNum - 1) * everyPageTotal + everyPageTotal) >= dataSum ? dataSum : ((currentPageNum - 1) * everyPageTotal + everyPageTotal);
+
+        for (var i = indexMin; i < indexMax; i++) {
+            cont += '' + '<tr>' + '<td>'
+                + res[i].username
+                + '</td>'
+                + '<td>'
+                + res[i].password
+                + '</td>'
+                + '<td>'
+                + res[i].rank
+                + '</td>'
+                + '<td>'
+                + res[i].birthday
+                + '</td>'
+                + '<td>'
+                + res[i].image_url
+                + '</td>'
+                + '<td>'
+                + (typeof (res[i].email) == 'undefined' ? '-'
+                    : res[i].email)
+                + '</td>'
+                + '<td>'
+                + (typeof (res[i].github) == 'undefined' ? '-'
+                    : res[i].github)
+                + '</td>'
+                + '<td>'
+                + res[i].latest_login_ip
+                + '</td>'
+                + '<td>'
+                + res[i].latest_login_time
+                + '</td>'
+                + '<td>'
+                + (res[i].status == 1 ? 'alived' : 'dead')
+                + '</td>'
+                + '<td><button class="btn btn-warning btn-sm" style="padding-top:1px; padding-bottom:1px;" onclick="remove('
+                + res[i].id + ')">删除</button></td>' + '</tr>' + '';
+        }
+
+        $("#manager_cont").append($(cont));
+
+    }
+
+    /**
+     * 完成的函数
+     */
+    function remove(id) {
+        console.log(id);
+    }
+
+    function clearInput() {
+        $("#words-textarea").val("");
+        $("#words-place").val("");
+    }
+
+    function isNull(str) {
+        if (str.trim() == "") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 保存
+     */
+    function save() {
+        //获取数据
+        var username = $("#username-m").val();
+        var password = $("#password-m").val();
+        var email = $("#email-m").val();
+        var gith = $("#github-m").val();
+        var rank = $("#rank-m").val();
+
+        if (isNull(username) || isNull(password)) {
+            showModel("管理员名称或密码均不能为空！");
+            return;
+        }
+
+        var params = {
+            action: 'insert-manager',
+            data: {
+                username: username,
+                password: password,
+                email: email,
+                github: gith,
+                rank: rank
+            }
+        };
+        console.log(JSON.stringify(params));
+        $.ajax({
+            async: false, //禁止异步
+            url: "/DCMServer/goodLuckToDd/back",
+            type: "post",
+            data: {
+                params: JSON.stringify(params)
+            },
+            dataType: "json",
+            success: function (json) {
+                /*
+                $("#message").html(json.message);
+                //成功跳转
+                if(json.status.toString() == '1'){
+                     window.location.href="index.html";
+                }
+                 */
+                res = json;
+                showModel("保存成功！");
+
+                clearInput();
+                addCont(selectManagers());
+
+            },
+            error: function (json) {
+                /*
+                alert(json.message);
+                $("#message").html(json.message);
+                 */
+                console.log("失败");
+                console.log(json);
+                showModel("数据加载失败！");
+                res = json;
+            }
+        });
+    }
+
+    /**
+     *页面加载需要执行的操作
+     */
+    // $(function () {
+    //     console.log($.cookie('current_username'));
+    //
+    //     //1.请求文章的数据
+    //     var res = selectManagers();
+    //     _data = res;
+    //
+    //     initP(res, 5);
+    //
+    //     //2.加载数据到页面
+    //     addCont(res);
+    //
+    //     paged();
+    // });
+</script>
+</body>
+</html>

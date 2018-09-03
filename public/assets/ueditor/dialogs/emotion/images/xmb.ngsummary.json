@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>帮助</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <script type="text/javascript" src="../internal.js"></script>
+    <link rel="stylesheet" type="text/css" href="help.css">
+</head>
+<body>
+<div class="wrapper" id="helptab">
+    <div id="tabHeads" class="tabhead">
+        <span class="focus" tabsrc="about"><var id="lang_input_about"></var></span>
+        <span tabsrc="shortcuts"><var id="lang_input_shortcuts"></var></span>
+    </div>
+    <div id="tabBodys" class="tabbody">
+        <div id="about" class="panel">
+            <h1>UEditor</h1>
+            <p id="version"></p>
+            <p><var id="lang_input_introduction"></var></p>
+        </div>
+        <div id="short
