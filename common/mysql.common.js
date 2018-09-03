@@ -2,18 +2,17 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: 'passw0rd'
+    password: 'passw0rd',
+    database: 'cms_node_database'
 });
-
-function getConnection() {
-    connection.connect();
-
-    connection.query('SELECT 1 + 1 AS solution', function (err, rows, fields) {
-        if (err) throw err;
-        console.log('The solution is: ', rows[0].solution);
-    });
-
-    connection.end();
+var mysqlUtil = {
+    connection: connection,
+    getConnection: function() {
+        this.connection.connect();
+    },
+    closeConnection: function() {
+        this.connection.end();
+    }
 }
 
-module.exports = connection;
+module.exports = mysqlUtil;
