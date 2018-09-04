@@ -124,7 +124,6 @@ $(function () {
     //     ' </div>';
 
     mainMenu = loadMainMenuData();
-    console.log("mainMenu ", mainMenu);
     //转换成jQuery对象
     var $mainMenuObj = $(mainMenu);
     //添加子项
@@ -134,7 +133,6 @@ $(function () {
 function loadMainMenuData() {
     var mainMenuData = menuData();
     var _nodeActiveClass = '';
-    console.log("mainMenuData ", mainMenuData);
     var mainMenu = '<div class="menu_wrapper">';
     for(var i=0; i<mainMenuData.length; i++) {
         mainMenu = mainMenu.concat('<ul>').concat('<li class="first_level">');
@@ -234,33 +232,7 @@ function menuData() {
             ]
         },
         {
-            nodeName: "Markdown内容管理",
-            nodeClassName: "menu-title",
-            nodeLogoClass: "icon_pens_alt first_level_icon",
-            path: "javascript:void(0)",
-            nodeActiveClass: "",
-            haveChild: true,
-            child: [
-                {
-                    nodeName: "新增Markdown内容",
-                    nodeClassName: "",
-                    nodeLogoClass: "",
-                    nodeActiveClass: "",
-                    path: "/markdownAdd",
-                    haveChild: false
-                },
-                {
-                    nodeName: "Markdown内容列表",
-                    nodeClassName: "",
-                    nodeLogoClass: "",
-                    nodeActiveClass: "",
-                    path: "/markdownList",
-                    haveChild: false
-                }
-            ]
-        },
-        {
-            nodeName: "富文本内容管理",
+            nodeName: "内容管理",
             nodeClassName: "menu-title",
             nodeLogoClass: "icon_pencil_alt first_level_icon",
             path: "javascript:void(0)",
@@ -268,19 +240,45 @@ function menuData() {
             haveChild: true,
             child: [
                 {
+                    nodeName: "所有内容",
+                    nodeClassName: "",
+                    nodeLogoClass: "",
+                    nodeActiveClass: "",
+                    path: "/contentList",
+                    haveChild: false
+                },
+                {
+                    nodeName: "Markdown内容发布",
+                    nodeClassName: "",
+                    nodeLogoClass: "",
+                    nodeActiveClass: "",
+                    path: "/markdownAdd",
+                    haveChild: false
+                },
+                {
                     nodeName: "富文本内容发布",
                     nodeClassName: "",
                     nodeLogoClass: "",
                     nodeActiveClass: "",
                     path: "/contentAdd",
                     haveChild: false
-                },
+                }
+            ]
+        },
+        {
+            nodeName: "文件上传",
+            nodeClassName: "menu-title",
+            nodeLogoClass: "el-icon-folder first_level_icon",
+            path: "javascript:void(0)",
+            nodeActiveClass: "",
+            haveChild: true,
+            child: [
                 {
-                    nodeName: "富文本内容列表",
+                    nodeName: "图片上传",
                     nodeClassName: "",
                     nodeLogoClass: "",
                     nodeActiveClass: "",
-                    path: "/contentList",
+                    path: "/uploadPic",
                     haveChild: false
                 }
             ]
