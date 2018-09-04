@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Yukon Admin Error 404</title>
+        <title>CMS-NODE Error 404</title>
         <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -20,6 +20,7 @@
             <div id="error_wrapper_inner">
                 <h1 class="error_heading">Error 404</h1>
                 <h2 class="error_subheading">The requested URL <span>url_link</span> was not found on this server.</h2>
+                <h3 id="errorText">3s后跳转到首页...</h3>
                 <p><a href="/">Go Back</a></p>
             </div>
         </div>
@@ -32,6 +33,21 @@
 	  
 		ga('create', 'UA-54304677-1', 'auto');
 		ga('send', 'pageview');
+
+        window.onload=function (){
+            var timeNum = 2;
+            var errorText = document.getElementById("errorText");
+            var id;
+            id = setInterval(function () {
+                if(timeNum<=0) {
+                    clearTimeout(id);
+                    window.location.href = "/";
+                    return;
+                }
+                errorText.innerHTML = timeNum+"s后跳转到首页...";
+                timeNum--;
+            },1000);
+        }
 	</script>
 
     </body>

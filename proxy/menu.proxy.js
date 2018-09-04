@@ -1,11 +1,13 @@
 var mysqlUtil = require('../common/mysql.common');
-mysqlUtil.getConnection();
 
 /*
 menu表的CRUD操作.
  */
 var menu = {
     table_name: "menu",
+    init: function () {
+        mysqlUtil.getConnection();
+    },
     select: function () {
         var _sql = "SELECT * FROM " + this.table_name + "";
         mysqlUtil.connection.query(_sql, function (err, rows, fields) {

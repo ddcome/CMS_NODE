@@ -17,10 +17,11 @@ var contents = {
     insert: function (insertData) {
         var _sql = 'INSERT INTO ' + this.table_name + '(menu_id,content,time,author_id,type,title,small_title,status) VALUES(?,?,?,?,?,?,?,?)';
         mysqlUtil.connection.query(_sql, insertData, function (err, result) {
-            if (err) {
-                console.log('[INSERT ERROR] - ', err.message);
-                return;
-            }
+            // if (err) {
+            //     console.log('[INSERT ERROR] - ', err.message);
+            //     return;
+            // }
+            if (err) throw err;
             console.log('INSERT ID:', result);
         });
     },

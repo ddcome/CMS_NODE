@@ -1,11 +1,13 @@
 var mysqlUtil = require('../common/mysql.common');
-mysqlUtil.getConnection();
 
 /*
 managers表的CRUD操作.
  */
 var managers = {
     table_name: "managers",
+    init: function () {
+        mysqlUtil.getConnection();
+    },
     select: function () {
         var _sql = "SELECT * FROM " + this.table_name + "";
         mysqlUtil.connection.query(_sql, function (err, rows, fields) {

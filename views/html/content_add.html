@@ -61,30 +61,33 @@
             </fieldset>
             <div class="row">
                 <div class="col-lg-6">
-                    <label for="article_title">内容标题:</label>
-                    <input type="text" id="article_title" class="form-control">
+                    <label for="content_title">内容标题:</label>
+                    <input type="text" id="content_title" class="form-control">
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-6">
-                    <label for="article_author">作者:</label>
-                    <input type="text" id="article_author" class="form-control" readonly="readonly" value="ddcome">
+                    <label for="content_small_title">小标题:</label>
+                    <input type="text" id="content_small_title" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <label for="content_author">作者:</label>
+                    <input type="text" id="content_author" class="form-control" readonly="readonly" value="ddcome">
                 </div>
             </div>
 
             <div class="row">
 
-                <div class="col-lg-3">
-                    <label>选择标签:</label>
-                    <input type="text" id="association" name="association" class="form-control" placeholder="请搜索关键词...">
-                    <div id="association-div"
-                         style="width:100%; border:1px solid #ccc;height:100px;overflow:auto;display:none;">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="menu_id">所属菜单</label>
+                        <select id="menu_id" class="form-control">
+                            <option value="1">菜单一</option>
+                            <option>2</option>
+                        </select>
                     </div>
-                </div>
-                <div class="col-lg-3">
-                    <label>选中的标签：</label><br>
-                    <ul id="select_tags" style="list-style-type:none;padding-left:3px;">
-                    </ul>
                 </div>
 
             </div>
@@ -93,8 +96,7 @@
                 <div class="col-lg-12">
                     <!--Ueditor编辑器-->
                     <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
-                    <
-                    p > < /p>
+
                     </script>
                 </div>
             </div>
@@ -153,8 +155,10 @@
 <!-- jBox -->
 <script src="assets/lib/jBox-0.3.0/Source/jBox.min.js"></script>
 
+<script src="assets/js/moment.js"></script>
 
 <script type="text/javascript">
+
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     var ue = UE.getEditor('editor');
@@ -170,58 +174,49 @@
         console.log("点击了发布");
 
 
-        var arr = new Array();
-        var arrNew = new Array();
-        var index = 0;
-        var indexNew = 0;
-        for (var i = 0; i < selectedArr.length; i++) {
-            //对于新增的数据和选中历史tags数据作区分
-            if (selectedArr[i].indexOf("_") > 0) {
-                arrNew[indexNew] = $("#" + selectedArr[i] + " a").text();
-                indexNew++;
-            } else {
-                arr[index] = $("#" + selectedArr[i] + " a").text();
-                index++;
-            }
-        }
         //获取input框中的文章名
-        var title = $("#article_title").val();
-        var author = $("#article_author").val();
+        var title = $("#content_title").val();
+        var smallTitle = $("#content_small_title").val();
+        var menuId = 1;//$("#menu_id").val()
+        var authorId = 1;
         var content = UE.getEditor('editor').getContent();
 
-
         console.log(title);
-        console.log(author);
-        console.log(arrNew);
-        console.log(arr);
+        console.log(smallTitle);
+        console.log(menuId);
+        console.log(authorId);
         console.log(content);
 
-        insert(title, arr, arrNew, author, content);
-
-
+        insert(title, smallTitle, menuId, authorId, content);
     });
+
+    function clearContentInput() {
+        $("#content_title").val("");
+        $("#content_small_title").val("");
+        UE.getEditor('editor').setContent("");
+    }
 
     /**
      * 数据新增的函数
      */
-    function insert(title, arr, arrNew, author, content) {
+    function insert(title, smallTitle, menuId, authorId, content) {
 
         var params = {
-            action: 'insert-articles',
+            action: 'insert',
             data: {
                 title: title,
-                tags: {
-                    oldTags: arr,
-                    newTags: arrNew
-                },
-                author: author,
-                content: content
+                smallTitle: smallTitle,
+                menuId: menuId,
+                type: "富文本",
+                authorId: authorId,
+                content: content,
+                time: moment().format('YYYY-MM-DD HH:mm:ss')
             }
         };
         console.log(JSON.stringify(params));
         $.ajax({
             async: false, //禁止异步
-            url: "/DCMServer/goodLuckToDd/back",
+            url: "/ContentAdd",
             type: "post",
             data: {
                 params: JSON.stringify(params)
@@ -247,7 +242,6 @@
                     },
                     theme: 'NoticeBorder',
                     color: 'green',
-                    audio: 'assets/lib/jBox-0.3.0/Source/audio/bling2',
                     volume: '100',
                     stack: false,
                     autoClose: 3000,
@@ -256,10 +250,12 @@
                         close: 'slide:left'
                     },
                     onInit: function () {
-                        this.options.title = '反馈';
                         this.options.content = '数据保存成功！';
                     }
                 });
+
+                //采用跳转清除数据
+                clearContentInput();
             },
             error: function (json) {
                 /*
@@ -268,35 +264,30 @@
                 */
                 console.log("失败");
                 console.log(json);
+                //最后，进行提示信息的展示
+                new jBox('Notice', {
+                    attributes: {
+                        x: 'right',
+                        y: 'bottom'
+                    },
+                    theme: 'NoticeBorder',
+                    color: 'green',
+                    volume: '100',
+                    stack: false,
+                    autoClose: 3000,
+                    animation: {
+                        open: 'slide:bottom',
+                        close: 'slide:left'
+                    },
+                    onInit: function () {
+                        this.options.content = '数据保存失败！';
+                    }
+                });
             }
         });
     }
 
-    /**
-     *维护数组函数 之 扩容
-     */
-    function addArray(id) {
-        //增加一个元素，为数组扩容
-        var len = selectedArr.length;
-        selectedArr[len] = id;
-    }
 
-    /**
-     *维护数组函数 之 缩容
-     */
-    function reduceArray(id) {
-        //减少一个元素,为数组缩容
-        var middleware = new Array();
-        var index = 0;
-        for (var i = 0; i < selectedArr.length; i++) {
-            var one = selectedArr[i];
-            if (one != id) {
-                middleware[index] = one;
-                index++;
-            }
-        }
-        selectedArr = middleware;
-    }
 
     $(document).ready(function () {
         //查询联想的结果
@@ -305,68 +296,6 @@
         // console.log(result[0].tag);
     });
 
-    $("#association").bind('input porpertychange', function () {
-        var value = $("#association").val();
-        associateSearch(value);
-    });
-
-    function associateSearch(value) {
-        //初始化
-        var flag = false;
-        $("#association-div").css('display', 'none');
-        $("#association-div").css('border', '1px solid #ccc');
-        $("#association-div").empty();
-        var ul = '<ul style="list-style-type:none;padding-left:3px;">';
-        for (var i = 0; i < result.length; i++) {
-            if (result[i].tag.toLocaleUpperCase().indexOf(value.toLocaleUpperCase()) >= 0) {
-                ul += '<li id="' + result[i].id + '"><a href="javascript:addTag(\'' + result[i].id + '\',\'' + result[i].tag + '\');">' + result[i].tag + '</a></li>';
-                flag = true;
-            }
-        }
-        ul += '</ul>';
-        $("#association-div").append($(ul));
-        if (!flag) {
-            var btn = '<button class="btn-primary btn" type="button" onclick="insertTag()">添加</button>';
-            $("#association-div").css('border', '0');
-            $("#association-div").css('display', 'block');
-            $("#association-div").append($(btn));
-        }
-        if (flag) {
-            $("#association-div").css('display', 'block');
-            flag = false;
-        }
-    }
-
-    /**
-     * 新增标签
-     */
-    function insertTag() {
-        var tag = $("#association").val();
-        var id = uuid();
-        var li = '<li id="selected' + id + '"><a href="javascript:delTag(\'' + id + '\');">' + tag + '<i class="icon_close_alt bs_ttip"></i></a></li>';
-        $("#select_tags").append($(li));
-        addArray("selected" + id);
-    }
-
-    /**
-     * 添加标签
-     */
-    function addTag(id, tag) {
-        console.log(id);
-        console.log(tag);
-        var li = '<li id="selected' + id + '"><a href="javascript:delTag(\'' + id + '\');">' + tag + '<i class="icon_close_alt bs_ttip"></i></a></li>';
-        $("#select_tags").append($(li));
-        addArray("selected" + id);
-    }
-
-    /**
-     * 删除标签
-     */
-    function delTag(id) {
-        console.log(id);
-        $("#selected" + id + "").remove();
-        reduceArray("selected" + id);
-    }
 
     function select() {
         //组装传输对象

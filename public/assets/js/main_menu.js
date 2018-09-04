@@ -234,7 +234,7 @@ function menuData() {
             ]
         },
         {
-            nodeName: "MarkDown笔记管理",
+            nodeName: "Markdown内容管理",
             nodeClassName: "menu-title",
             nodeLogoClass: "icon_pens_alt first_level_icon",
             path: "javascript:void(0)",
@@ -242,7 +242,7 @@ function menuData() {
             haveChild: true,
             child: [
                 {
-                    nodeName: "新增MarkDown笔记",
+                    nodeName: "新增Markdown内容",
                     nodeClassName: "",
                     nodeLogoClass: "",
                     nodeActiveClass: "",
@@ -250,7 +250,7 @@ function menuData() {
                     haveChild: false
                 },
                 {
-                    nodeName: "MarkDown笔记列表",
+                    nodeName: "Markdown内容列表",
                     nodeClassName: "",
                     nodeLogoClass: "",
                     nodeActiveClass: "",
