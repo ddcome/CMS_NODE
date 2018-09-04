@@ -6,10 +6,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var markdownAddRouter = require('./routes/markdownAdd');
-var markdownListRouter = require('./routes/markdownList');
 var contentListRouter = require('./routes/contentList');
 var contentAddRouter = require('./routes/contentAdd');
 var managerConfigurationRouter = require('./routes/managerConfiguration');
+var menuConfigurationRouter = require('./routes/menuConfiguration');
 var managerAllRouter = require('./routes/managerAll');
 var userAllRouter = require('./routes/userAll');
 var usersRouter = require('./routes/users');
@@ -34,11 +34,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/markdownAdd', markdownAddRouter);
-app.use('/markdownList', markdownListRouter);
 app.use('/contentList', contentListRouter);
 app.use('/contentAdd', contentAddRouter);
 app.use('/managerConfiguration', managerConfigurationRouter);
 app.use('/managerAll', managerAllRouter);
+app.use('/menuConfiguration', menuConfigurationRouter);
 app.use('/userAll', userAllRouter);
 app.use('/users', usersRouter);
 

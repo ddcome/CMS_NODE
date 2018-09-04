@@ -6,22 +6,26 @@ contents表的CRUD操作.
  */
 var contents = {
     table_name: "contents",
-    select: function () {
+    select: function (callback) {
         var _sql = "SELECT * FROM " + this.table_name + "";
         mysqlUtil.connection.query(_sql, function (err, rows, fields) {
-            if (err) throw err;
-            console.log('The result is: ', rows);
-            return rows;
+            if (err) {
+                console.log('[SELECT ERROR] - ', err.message);
+                return;
+            }
+            // if (err) throw err;
+            var _r = JSON.parse(JSON.stringify(rows));
+            callback(_r);
         });
     },
     insert: function (insertData) {
         var _sql = 'INSERT INTO ' + this.table_name + '(menu_id,content,time,author_id,type,title,small_title,status) VALUES(?,?,?,?,?,?,?,?)';
         mysqlUtil.connection.query(_sql, insertData, function (err, result) {
-            // if (err) {
-            //     console.log('[INSERT ERROR] - ', err.message);
-            //     return;
-            // }
-            if (err) throw err;
+            if (err) {
+                console.log('[INSERT ERROR] - ', err.message);
+                return;
+            }
+            // if (err) throw err;
             console.log('INSERT ID:', result);
         });
     },

@@ -16,12 +16,8 @@ var contentController = {
         contentsProxy.insert(insertData);
         // contentsProxy.close();
     },
-    select: function () {
-        var result;
-        contentsProxy.init();
-        result = contentsProxy.select();
-        // contentsProxy.close();
-        return result;
+    select: function (callback) {
+        contentsProxy.select(callback);
     }
 };
 
