@@ -5,7 +5,7 @@ module.exports = {
     entry: './app.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: './dist/main.js'
+        filename: './dist/main.entry.js'
     },
     module: {
         // 多个loader是有顺序要求的，从右往左写，因为转换的时候是从右往左转换的

@@ -27,5 +27,10 @@ router.post('/', function (req, res) {
             break;
     }
 });
+router.get('/getMenuData', function (req, res) {
+    menuController.select(function (r) {
+        res.jsonp(r);
+    });
+});
 
 module.exports = router;

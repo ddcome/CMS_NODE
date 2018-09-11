@@ -13,6 +13,7 @@ var menuConfigurationRouter = require('./routes/menuConfiguration');
 var managerAllRouter = require('./routes/managerAll');
 var userAllRouter = require('./routes/userAll');
 var usersRouter = require('./routes/users');
+var uploadPicRouter = require('./routes/uploadPic');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use('/managerAll', managerAllRouter);
 app.use('/menuConfiguration', menuConfigurationRouter);
 app.use('/userAll', userAllRouter);
 app.use('/users', usersRouter);
+app.use('/uploadPic', uploadPicRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
