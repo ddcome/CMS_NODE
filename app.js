@@ -32,6 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads',express.static('uploads'));
 
 app.use('/', indexRouter);
 app.use('/markdownAdd', markdownAddRouter);
@@ -43,6 +44,8 @@ app.use('/menuConfiguration', menuConfigurationRouter);
 app.use('/userAll', userAllRouter);
 app.use('/users', usersRouter);
 app.use('/uploadPic', uploadPicRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
